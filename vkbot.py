@@ -35,33 +35,12 @@ class VkBot:
 
         self.gs = GoogleSheets(table_name, service_account_file)
         self.gd = GoogleDriveConnector(service_account_file)
-
-
         self.keyboard = Keyboard()
 
         self.logger.info("Completion of bot initialization")
 
         self.logger.info('Start of answers download')
         self.mp = MessageParser(self.vk, self.gs)
-        # self.about_commandant = self.gs.get_answer_text('ABOUT_MILENA')[0]
-        # self.about_castellan = self.gs.get_answer_text('ABOUT_MARGO')[0]
-        # self.about_gym = self.gs.get_answer_text('ABOUT_GYM')[0]
-        # self.about_study_room = self.gs.get_answer_text('ABOUT_STUDY_ROOM')[0]
-        # self.about_guests = self.gs.get_answer_text('ABOUT_GUESTS')[0]
-        # self.about_shower = self.gs.get_answer_text('ABOUT_SHOWER')[0]
-        # self.about_laundry = self.gs.get_answer_text('ABOUT_LAUNDRY')[0]
-        # self.about_duty = self.gs.get_answer_text('REMINDER_ABOUT_DUTY')[0]
-        # self.question = self.gs.get_answer_text('ABOUT_STUDSOVET')[0]
-        # self.about_bot = self.gs.get_answer_text('ABOUT_BOT')[0]
-        # self.parting = self.gs.get_answer_text('PARTING')
-        # self.opportunities = self.gs.get_answer_text('OPPORTUNITIES')[0]
-        # self.rude_commands = self.gs.get_answer_text('RUDE_COMMANDS')
-        # self.good_room = self.gs.get_answer_text('GOOD_ROOM')[0]
-        # self.bad_room = self.gs.get_answer_text('BAD_ROOM')[0]
-        # self.unknown_commands = self.gs.get_answer_text('UNKNOWN_COMMANDS')
-        # self.topical = self.gs.get_answer_text('TOPICAL')[0]
-        # self.about_invoice = self.gs.get_answer_text('ABOUT_INVOICE')[0]
-        # self.about_studsovet = self.gs.get_answer_text('ABOUT_STUDSOVET')[0]
 
         self.data_to_upload = {'room': [], 'fullname': [], 'id': []}
 
