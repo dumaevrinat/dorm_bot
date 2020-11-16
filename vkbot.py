@@ -4,7 +4,7 @@ import time
 
 from config.log.logger import Logger
 from config.setup import *
-from google.google_sheets import GoogleSheets
+from google.google_sheets_connector import GoogleSheets
 from google.google_drive_connector import GoogleDriveConnector
 import pandas as pd
 from vk_api.bot_longpoll import VkBotEventType, VkBotLongPoll
@@ -17,7 +17,7 @@ from keyboard import Keyboard
 
 class VkBot:
 
-    def __init__(self, group_id, token, table_name, room_list, service_account_file, vk_bot: str = "bot", ):
+    def __init__(self, group_id, token, table_name, room_list, service_account_file, admin_id, vk_bot="bot", ):
         """Creates a new bot with parameters from the setup file"""
         self.logger = Logger('app').logger
         self.logger.info('Start of bot initialization')
@@ -26,8 +26,8 @@ class VkBot:
         self.vk_session = vk_api.VkApi(token=token)
         self.long_poll = VkBotLongPoll(self.vk_session, group_id)
         self.vk = self.vk_session.get_api()
-        self.master_id = GOSHA_ID
-        self.admins_ids = GOSHA_ID
+        self.admin_id = admin_id
+        # self.admins_ids =
         self.vk_link = VK_LINK
 
         self.room_list = room_list
@@ -52,7 +52,7 @@ class VkBot:
         :param event:   Event that caused the exception.
         :return:        None.
         """
-        self.write_msg(self.master_id, 'Что-то пошло не так с командой {} от пользователя {}.'.format(event.obj.text, ' '.join(self.mp.get_full_name(event.obj.from_id))),
+        self.write_msg(self.admin_id, 'Что-то пошло не так с командой {} от пользователя {}.'.format(event.obj.text, ' '.join(self.mp.get_full_name(event.obj.from_id))),
                        self.keyboard.user_keyboard)
 
         self.write_msg(event.obj.peer_id,
@@ -136,7 +136,6 @@ class VkBot:
         self.mp.about_bot = self.gs.get_answer_text('ABOUT_BOT')[0]
         self.mp.parting = self.gs.get_answer_text('PARTING')
         self.mp.opportunities = self.gs.get_answer_text('OPPORTUNITIES')[0]
-        self.mp.rude_commands = self.gs.get_answer_text('RUDE_COMMANDS')
         self.mp.good_room = self.gs.get_answer_text('GOOD_ROOM')[0]
         self.mp.bad_room = self.gs.get_answer_text('BAD_ROOM')[0]
         self.mp.unknown_commands = self.gs.get_answer_text('UNKNOWN_COMMANDS')
@@ -172,7 +171,7 @@ class VkBot:
                 self.gs.links_dataframe = pd.DataFrame(self.gs.sheet_links.get_all_records())
 
     def get_events(self):
-        self.write_msg(self.master_id, 'Бот запущен', self.keyboard.user_keyboard)
+        self.write_msg(self.admin_id, 'Бот запущен', self.keyboard.user_keyboard)
         self.logger.info('Main thread is started')
 
         for event in self.long_poll.listen():
@@ -182,7 +181,7 @@ class VkBot:
                 forwarded_request = event.obj.text
                 is_answered = False
 
-                if event.obj.peer_id == self.master_id:
+                if event.obj.peer_id == self.admin_id:
                     if request.startswith('НАПИШИ'):
                         try:
                             room = forwarded_request.split()[1]
@@ -196,19 +195,19 @@ class VkBot:
 
                         else:
                             if ids:
-                                self.write_msg(self.master_id, 'Сделано', self.keyboard.user_keyboard)
+                                self.write_msg(self.admin_id, 'Сделано', self.keyboard.user_keyboard)
                             else:
-                                self.write_msg(self.master_id, 'Никого не оказалось', self.keyboard.user_keyboard)
+                                self.write_msg(self.admin_id, 'Никого не оказалось', self.keyboard.user_keyboard)
                         is_answered = True
                     if request.startswith("ОБНОВИ"):
                         try:
-                            self.write_msg(self.master_id, 'Это займет некоторое время, подождите', self.keyboard.user_keyboard)
+                            self.write_msg(self.admin_id, 'Это займет некоторое время, подождите', self.keyboard.user_keyboard)
                             self.update_data()
                         except Exception:
-                            self.write_msg(self.master_id, 'Данные не обновлены, повторите попытку позднее', self.keyboard.user_keyboard)
+                            self.write_msg(self.admin_id, 'Данные не обновлены, повторите попытку позднее', self.keyboard.user_keyboard)
                             self.logger.exception('Information is not updated')
                         else:
-                            self.write_msg(self.master_id, 'Данные успешно обновлены', self.keyboard.user_keyboard)
+                            self.write_msg(self.admin_id, 'Данные успешно обновлены', self.keyboard.user_keyboard)
                             self.logger.info('Information updated')
 
                         is_answered = True
@@ -221,7 +220,7 @@ class VkBot:
                     if difflib.SequenceMatcher(None, self.mp.question, event.obj.reply_message['text']).ratio() >= 0.99:
                         try:
                             self.write_msg(event.obj.peer_id, 'Спасибо за вопрос, я передал его.', self.keyboard.user_keyboard)
-                            self.write_msg(self.master_id, '{} спросил:\n{} \nСсылка на страницу: {}{}'.format(
+                            self.write_msg(self.admin_id, '{} спросил:\n{} \nСсылка на страницу: {}{}'.format(
                                 ' '.join(self.mp.get_full_name(event.obj.from_id)),
                                 forwarded_request,
                                 self.vk_link,
@@ -248,7 +247,7 @@ class VkBot:
 
                                 self.write_msg(event.obj.peer_id, 'Ты ввел корректную комнату.\n\nОжидай добавления в базу :)', self.keyboard.user_keyboard)
                             else:
-                                self.write_msg(self.master_id, 'Нарушение структуры данных для загрузки', self.keyboard.user_keyboard)
+                                self.write_msg(self.admin_id, 'Нарушение структуры данных для загрузки', self.keyboard.user_keyboard)
                         else:
                             try:
                                 self.write_msg(event.obj.from_id, self.mp.bad_room, self.keyboard.user_keyboard)

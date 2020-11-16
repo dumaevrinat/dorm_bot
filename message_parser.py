@@ -21,7 +21,6 @@ class MessageParser:
         self.about_bot = gs.get_answer_text('ABOUT_BOT')[0]
         self.parting = gs.get_answer_text('PARTING')
         self.opportunities = gs.get_answer_text('OPPORTUNITIES')[0]
-        self.rude_commands = gs.get_answer_text('RUDE_COMMANDS')
         self.good_room = gs.get_answer_text('GOOD_ROOM')[0]
         self.bad_room = gs.get_answer_text('BAD_ROOM')[0]
         self.unknown_commands = gs.get_answer_text('UNKNOWN_COMMANDS')
@@ -63,7 +62,6 @@ class MessageParser:
             'parting':          random.choice(self.parting),
             'gratitude':        'Обращайтесь:)',
             'opportunities':    self.opportunities,
-            'rude_command':     random.choice(self.rude_commands),
             'invoice':          self.about_invoice,
             'topical':          self.topical,
         }.get(msg_type, random.choice(self.unknown_commands))

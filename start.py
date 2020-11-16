@@ -5,9 +5,9 @@ import time
 from config.log.logger import Logger
 from vkbot import VkBot
 
-import env
-    # env.set_5a_creds()
-    # env.set_5b_creds()
+# import env
+# env.set_5a_creds()
+# env.set_5b_creds()
 
 
 class Thread(threading.Thread):
@@ -37,10 +37,10 @@ def start_threads():
     thread2.start()
 
 
-def start_bot(group_id, token, table_name, room_list, service_account_file):
+def start_bot(group_id, token, table_name, room_list, service_account_file, admin_id):
     global logger
     try:
-        bot = VkBot(group_id, token, table_name, room_list, service_account_file)
+        bot = VkBot(group_id, token, table_name, room_list, service_account_file, admin_id)
     except Exception:
         time_before_reboot = 200
         logger.exception('Bot is not created')
@@ -59,6 +59,8 @@ if __name__ == "__main__":
     group_id = os.environ['GROUP_ID']
     service_account_file = f"google/client_secrets_{os.environ['DORM']}.json"
     token = os.environ['GROUP_TOKEN']
+    admin_id = os.environ['ADMIN_ID']
+
     table_name = f"Дежурство{os.environ['DORM']}"
 
     if os.environ['DORM'] == '5b':
@@ -75,7 +77,7 @@ if __name__ == "__main__":
                      502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519]
 
     logger.info('Start of bot creation')
-    bot = start_bot(group_id, token, table_name, room_list, service_account_file)
+    bot = start_bot(group_id, token, table_name, room_list, service_account_file, admin_id)
     logger.info('Complition of bot creation')
 
     logger.info('Start of bot\'s threads')
