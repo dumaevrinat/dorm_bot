@@ -23,7 +23,7 @@ jobs:
         cat linting_flake8.txt
 
         total_errors="$(tail -1 linting_flake8.txt)"
-        threshold=10
+        threshold=100
 
         if [[  $total_errors -gt $threshold ]];
         then
