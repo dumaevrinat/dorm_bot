@@ -47,7 +47,7 @@ create table command_statistics (
 );
 
 -- Ответы на команду
-сreate table command_responses (
+create table command_responses (
   id int primary key auto_increment,
   response varchar(250) not null,
   command_id int not null,
