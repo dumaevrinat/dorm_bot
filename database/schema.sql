@@ -28,11 +28,13 @@ create table registrations (
 );
 
 -- Команды
+-- Приоритет - "привет" менее приоритетно чем  "душ" и т.д.
 create table commands (
   id int primary key auto_increment,
   name varchar(250) not null,
-  is_active boolean not null
-)
+  is_active boolean not null,
+  priority int not null
+);
 
 -- Статистика по командам
 create table command_statistics (
@@ -40,6 +42,7 @@ create table command_statistics (
   vk_id bigint not null,
   date timestamp not null,
   command_id int not null,
+
 
   constraint command_statistics_ibfk_1
       foreign key (command_id) references commands (id)
@@ -49,7 +52,7 @@ create table command_statistics (
 -- Ответы на команду
 create table command_responses (
   id int primary key auto_increment,
-  response varchar(250) not null,
+  response mediumtext not null,
   command_id int not null,
 
   constraint command_responses_ibfk_1
@@ -66,4 +69,11 @@ create table command_synonyms (
   constraint command_synonyms_ibfk_1
       foreign key (command_id) references commands (id)
           on delete cascade
+);
+
+
+-- информация о комнатах, id=номер
+create table rooms (
+  id int primary key,
+  size int not null
 );

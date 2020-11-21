@@ -1,44 +1,55 @@
+INSERT INTO commands (name, is_active, priority) VALUES ('commandant', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ('castellan', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ('gym', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ('study_room', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'guests', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'shower', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'laundry', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'duty', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'question', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'greeting', 1, 3);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'parting', 1, 4);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'gratitude', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'opportunities', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'invoice', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'topical', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'registration', 1, 1);
+INSERT INTO commands (name, is_active, priority) VALUES ( 'joke', 1, 2);
+
+select @curr_id:=c.id from commands c where c.name = 'commandant';
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('КОМЕНДАНТ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('МИЛЕНА', @curr_id);
+INSERT INTO command_responses (response, command_id) VALUES ('Милена Леонидовна работает в непраздничные дни с понедельника по четверг с 9:00 до 17:00.\nВ пятницу с 9:00 до 16:30.\nОбеденный перерыв с 13:00 до 13:30.\nТелефон: +78127750530 доб. 1454.\nПочта: dorm5@spbstu.ru', @curr_id);
+
+select @curr_id:=c.id from commands c where c.name = 'castellan';
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('БЕЛЬЕ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ПОСТЕЛЬ', @curr_id);
+INSERT INTO command_responses (response, command_id) VALUES ('Маргарита Валерьевна (кастелянша) меняет белье в понедельник и в среду с 10:00 до 17:00.\nОбеденный перерыв с 13:00 до 13:30.\nБелье приносить СТРОГО в пакетах.\nВозможны изменения, актуальная информация размещена на первом этаже.', @curr_id);
 
 
-INSERT INTO commands (id, name, is_active) VALUES (1, 'shower', 1);
-INSERT INTO commands (id, name, is_active) VALUES (2, 'commandant', 1);
-INSERT INTO commands (id, name, is_active) VALUES (7, 'castellan', 1);
-INSERT INTO commands (id, name, is_active) VALUES (8, 'gym', 1);
-INSERT INTO commands (id, name, is_active) VALUES (9, 'study_room', 1);
-INSERT INTO commands (id, name, is_active) VALUES (10, 'guests', 1);
-INSERT INTO commands (id, name, is_active) VALUES (11, 'laundry', 1);
-INSERT INTO commands (id, name, is_active) VALUES (21, 'duty', 1);
-INSERT INTO commands (id, name, is_active) VALUES (22, 'question', 1);
-INSERT INTO commands (id, name, is_active) VALUES (23, 'greeting', 1);
-INSERT INTO commands (id, name, is_active) VALUES (24, 'parting', 1);
-INSERT INTO commands (id, name, is_active) VALUES (25, 'gratitude', 1);
-INSERT INTO commands (id, name, is_active) VALUES (26, 'opportunities', 1);
-INSERT INTO commands (id, name, is_active) VALUES (27, 'invoice', 1);
-INSERT INTO commands (id, name, is_active) VALUES (28, 'topical', 1);
-INSERT INTO commands (id, name, is_active) VALUES (29, 'registration', 1);
-INSERT INTO commands (id, name, is_active) VALUES (30, 'joke', 1);
-
-INSERT INTO command_responses (id, response, command_id) VALUES (1, 'В спортивный зал, расположенный на первом этаже общежития, можно записаться по ссылке ниже.\nhttps://docs.google.com/forms/d/e/1FAIpQLSdiOUQKZfRVQvxDb67LogKQ0SCUa0lQuDPd6mZg2UEz4jZ4MQ/viewform\nДля посещения необходимо убраться в зале в указанную дату и скинуть фотоотчет Георгию https://vk.com/re_giorgio \nУборка включает в себя протирание пыли, подметание и мытье пола.\nСписки посешающих обновятся в ближайшее воскресение, тогда же будет выслана дата дежурства.\nС понедельника можешь ходить, оставляя на вахте пропуск :)', 8);
-INSERT INTO command_responses (id, response, command_id) VALUES (2, 'Милена Леонидовна работает в непраздничные дни с понедельника по четверг с 9:00 до 17:00.\nВ пятницу с 9:00 до 16:30.\nОбеденный перерыв с 13:00 до 13:30.\nТелефон: +78127750530 доб. 1454.\nПочта: dorm5@spbstu.ru', 1);
-INSERT INTO command_responses (id, response, command_id) VALUES (3, 'Маргарита Валерьевна (кастелянша) меняет белье в понедельник и в среду с 10:00 до 17:00.\nОбеденный перерыв с 13:00 до 13:30.\nБелье приносить СТРОГО в пакетах.\nВозможны изменения, актуальная информация размещена на первом этаже.', 2);
-INSERT INTO command_responses (id, response, command_id) VALUES (4, 'Колобок повесился.', 30);
-INSERT INTO command_responses (id, response, command_id) VALUES (5, 'Кощей застрелился.', 30);
-
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (6, 'КОМЕНДАНТ', 1);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (7, 'МИЛЕНА', 1);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (8, 'БЕЛЬЕ', 2);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (9, 'ПОСТЕЛЬ', 2);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (10, 'ЗАЛ', 8);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (11, 'СПОРТЗАЛ', 8);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (12, 'СПОРТ', 8);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (13, 'СМЕНА БЕЛЬЯ', 2);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (14, 'ГЛАВНЫЙ', 1);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (15, 'АНЕГДОТ', 30);
-INSERT INTO command_synonyms (id, synonym, command_id) VALUES (16, 'ШУТКА', 30);
 
 
-INSERT INTO users (id, full_name, vk_id, room_number, phone_number, type) VALUES (1, 'Гоша', 184541442, 324, '8999', 'студент');
-INSERT INTO users (id, full_name, vk_id, room_number, phone_number, type) VALUES (1, 'не Гоша', 6666, 324, '777777777', 'не студент');
+select @curr_id:=c.id from commands c where c.name = 'gym';
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('СПОРТЗАЛ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('СПОРТ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ЗАЛ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('СПОРТИВНЫЙ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ТРЕНАЖЕРКА', @curr_id);
+INSERT INTO command_responses (response, command_id) VALUES ('Тут будет информация о зале
+Интерено сохранился ли преренос строки между предложениями?', @curr_id);
 
 
+
+select @curr_id:=c.id from commands c where c.name = 'greeting';
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ПРИВЕТ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ЗДРАВСТВУЙТЕ', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ДОБРЫЙ', @curr_id);
+INSERT INTO command_responses (response, command_id) VALUES ('И тебе привет!', @curr_id);
+
+select @curr_id:=c.id from commands c where c.name = 'joke';
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ШУТКА', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('ЮМОР', @curr_id);
+INSERT INTO command_synonyms (synonym, command_id) VALUES ('АНЕКДОТ', @curr_id);
+INSERT INTO command_responses (response, command_id) VALUES ('Колобок повесился.', @curr_id);
+INSERT INTO command_responses (response, command_id) VALUES ('Кощей застрелился.', @curr_id);
 
