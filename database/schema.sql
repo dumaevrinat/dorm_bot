@@ -88,8 +88,10 @@ create table command_synonyms (
 
 
 -- информация о комнатах, id=номер
+-- alive=1 сейчас комната не пустует, alive = 0 - пустует
+-- этаж хранится для быстрого доставания комнат по этажу
 create table rooms (
   id int primary key,
-  size int not null,
-  floor int not null
+  floor int not null,
+  alive int not null
 );
