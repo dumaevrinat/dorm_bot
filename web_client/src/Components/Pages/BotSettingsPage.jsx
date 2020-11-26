@@ -1,24 +1,23 @@
 import React from "react"
 import {makeStyles} from "@material-ui/core/styles"
 import {Typography} from "@material-ui/core"
-import CommandList from "../CommandList"
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        maxWidth: '100%',
         display: 'flex',
         flexDirection: 'column'
     },
 }))
 
-export default function CommandsPage() {
+export default function BotSettingsPage() {
     const classes = useStyles()
 
     return (
         <div className={classes.root}>
             <Typography variant='h6'>
-                Commands page
+                BotSettingsPage
             </Typography>
-            <CommandList/>
         </div>
     )
 }

@@ -1,7 +1,4 @@
-import React, {useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import {fetchCommands, selectAllCommands} from "../../slices/commandsSlice"
-import Typography from "@material-ui/core/Typography"
+import React from 'react'
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
@@ -14,25 +11,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function CommandList() {
+export default function CommandList({commands}) {
     const classes = useStyles()
-
-    const dispatch = useDispatch()
-    const commands = useSelector(selectAllCommands)
-    const commandsStatus = useSelector(state => state.commands.status)
-
-    useEffect(() => {
-        if (commandsStatus === 'idle') {
-            dispatch(fetchCommands())
-        }
-    }, [commandsStatus, dispatch])
 
     return (
         <div className={classes.root}>
-            {commandsStatus === 'loading' && <Typography>Loading ...</Typography>}
-
             <List>
-                {commandsStatus === 'succeeded' && commands.map(command =>
+                {commands.map(command =>
                     <ListItem key={command.id}>
                         <ListItemText
                             primary={`id ${command.id}`}
