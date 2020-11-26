@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import store from "../../store"
 import {Provider} from 'react-redux'
-import {BrowserRouter, Route, Switch} from "react-router-dom"
+import {HashRouter, Route, Switch} from "react-router-dom"
 import {Container, createMuiTheme, responsiveFontSizes} from "@material-ui/core"
 import {makeStyles} from "@material-ui/core/styles"
 import {ThemeProvider} from "@material-ui/styles"
@@ -66,7 +66,7 @@ export default function App() {
         <Provider store={store}>
             <ThemeProvider theme={responsiveFontSizes(customTheme)}>
                 <Context.Provider value={{toggleDrawer}}>
-                    <BrowserRouter>
+                    <HashRouter>
                         <Header/>
                         <Toolbar/>
 
@@ -81,7 +81,7 @@ export default function App() {
                                 <Route path='/statistics' component={StatisticsPage}/>
                             </Switch>
                         </Container>
-                    </BrowserRouter>
+                    </HashRouter>
                 </Context.Provider>
             </ThemeProvider>
         </Provider>
