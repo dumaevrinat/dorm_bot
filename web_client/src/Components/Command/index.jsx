@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center"
     },
+    title: {
+        marginRight: theme.spacing(1)
+    },
     content: {
         paddingLeft: 0,
         paddingRight: 0,
@@ -84,8 +87,11 @@ export default function Command({mainName, isActive, priority, synonyms, respons
                     checked={isActive}
                     onChange={changeActive}
                 />
-                <Typography variant='h6'>
+                <Typography className={classes.title} variant='h6'>
                     {mainName}
+                </Typography>
+                <Typography color='textSecondary' variant="subtitle2">
+                    {priority}
                 </Typography>
                 <IconButton
                     className={clsx(classes.expand, {
