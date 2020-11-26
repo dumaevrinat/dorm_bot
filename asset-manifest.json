@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/dorm_bot/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/dorm_bot/static/js/main.beabbafd.chunk.js",
+    "main.js.map": "/dorm_bot/static/js/main.beabbafd.chunk.js.map",
+    "runtime-main.js": "/dorm_bot/static/js/runtime-main.cf389522.js",
+    "runtime-main.js.map": "/dorm_bot/static/js/runtime-main.cf389522.js.map",
+    "static/js/2.21192770.chunk.js": "/dorm_bot/static/js/2.21192770.chunk.js",
+    "static/js/2.21192770.chunk.js.map": "/dorm_bot/static/js/2.21192770.chunk.js.map",
+    "index.html": "/dorm_bot/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/dorm_bot/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.21192770.chunk.js.LICENSE.txt": "/dorm_bot/static/js/2.21192770.chunk.js.LICENSE.txt",
+    "static/js/main.beabbafd.chunk.js.LICENSE.txt": "/dorm_bot/static/js/main.beabbafd.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cf389522.js",
+    "static/js/2.21192770.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.beabbafd.chunk.js"
+  ]
+}
