@@ -25,6 +25,6 @@ public class Registration {
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User user;
+    @JoinColumn(name = "bot_user_id", referencedColumnName = "id", nullable = false)
+    private BotUser botUser;
 }

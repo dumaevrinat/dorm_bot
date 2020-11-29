@@ -24,9 +24,9 @@ public class Command {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "command", cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Set<CommandStatistic> commandStatistics;
 
-    @OneToMany(mappedBy = "command", cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Set<CommandSynonym> commandSynonyms;
 }

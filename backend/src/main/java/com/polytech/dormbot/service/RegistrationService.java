@@ -21,8 +21,8 @@ public class RegistrationService {
         return registrationRepository.findById(id).orElseThrow(NoSuchRegistrationException::new);
     }
 
-    public List<Registration> getRegistrationsByUserId(Long userId) {
-        return registrationRepository.findAllByUser_Id(userId);
+    public List<Registration> getRegistrationsByBotUserId(Long userId) {
+        return registrationRepository.findAllByBotUser_Id(userId);
     }
 
     public Registration addRegistration(Registration registration) {

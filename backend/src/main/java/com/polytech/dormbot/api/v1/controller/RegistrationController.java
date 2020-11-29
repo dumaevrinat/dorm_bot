@@ -29,8 +29,8 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public List<RegistrationData> getRegistrationsByUserId(@RequestParam Long userId) {
-        return registrationService.getRegistrationsByUserId(userId)
+    public List<RegistrationData> getRegistrationsByBotUserId(@RequestParam Long botUserId) {
+        return registrationService.getRegistrationsByBotUserId(botUserId)
                 .stream()
                 .map(mapper::convertToData)
                 .collect(Collectors.toList());

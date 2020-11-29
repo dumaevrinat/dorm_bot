@@ -7,7 +7,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @SpringBootApplication
 public class DormbotApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(DormbotApplication.class, args);
 	}

@@ -67,7 +67,7 @@ public class Mapper {
 
     public RegistrationData convertToData(Registration registration) {
         RegistrationData registrationData = modelMapper.map(registration, RegistrationData.class);
-        registrationData.setUserId(registration.getUser().getId());
+        registrationData.setBotUserId(registration.getBotUser().getId());
 
         return registrationData;
     }
@@ -75,11 +75,19 @@ public class Mapper {
     public Registration convertToEntity(RegistrationData registrationData) {
         Registration registration = modelMapper.map(registrationData, Registration.class);
 
-        User user = new User();
-        user.setId(registrationData.getUserId());
-        registration.setUser(user);
+        BotUser botUser = new BotUser();
+        botUser.setId(registrationData.getBotUserId());
+        registration.setBotUser(botUser);
 
         return registration;
+    }
+
+    public BotUserData convertToData(BotUser botUser) {
+        return modelMapper.map(botUser, BotUserData.class);
+    }
+
+    public BotUser convertToEntity(BotUserData botUserData) {
+        return modelMapper.map(botUserData, BotUser.class);
     }
 
     public UserData convertToData(User user) {
