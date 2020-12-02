@@ -1,14 +1,20 @@
-import comp_vision.c_v as c_v
+import c_v
 
 #маркеры после которых идет нужная информация. капс важен
 FIO = ['ФИО ПЛАТЕЛЬЩИКА:', 'ФИО ПЛАТЕЛЬЩИКА']
 MARK_SUM = ['СУММА ОПЕРАЦИИ:', 'СУММА ПЛАТЕЖА:', 'СУММА ОПЕРАЦИИ', 'СУММА', 'ИТОГ']
 
+USELESS = ['%', '&', '~', '$', '>', '<']
+
 def get_info_from_img(img_name):
     text = c_v.load_text_from_img(img_name)
     text = str(text)
+    for i in USELESS:
+        text = text.replace(i, '')
+
     text = text.upper()
     arr = text.split("\n")
+
     while True:
         try:
             arr.remove('')
@@ -27,6 +33,8 @@ def get_info_from_img(img_name):
                         fio = arr[i+1]
                     else:
                         fio = arr[i].split(name_mark)[1]
+                        if len(fio) < 10:
+                            fio = arr[i + 1]
                     break
             if len(fio) > 0:
                 break
@@ -57,6 +65,6 @@ def get_info_from_img(img_name):
 
 
 if __name__ == "__main__":
-    fio, sum = get_info_from_img('IMG/tinc.jpg')
+    fio, sum = get_info_from_img('photo_2020-12-01_21-30-51.jpg')
     print("Фио:", fio)
     print("Сумма оплаты:", sum)

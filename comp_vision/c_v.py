@@ -10,8 +10,6 @@ def load_text_from_img(img_name):
     image = cv2.imread(img_name)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # проверьте, следует ли применять пороговое значение для предварительной обработки изображения
-
     if preprocess == "thresh":
         gray = cv2.threshold(gray, 0, 255,
             cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
