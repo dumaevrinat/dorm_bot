@@ -8,7 +8,11 @@ def load_text_from_img(img_name):
     preprocess = "thresh"
     # загрузить образ и преобразовать его в оттенки серого
     image = cv2.imread(img_name)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    try:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    except cv2.error:
+        return False
 
     if preprocess == "thresh":
         gray = cv2.threshold(gray, 0, 255,
