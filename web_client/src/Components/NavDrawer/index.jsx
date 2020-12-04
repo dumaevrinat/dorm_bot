@@ -6,14 +6,14 @@ import Context from "../../context"
 import {useHistory} from "react-router-dom"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
-import Typography from "@material-ui/core/Typography";
-import {Toolbar} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography"
+import {Toolbar} from "@material-ui/core"
 import {
     ForumOutlined, HomeOutlined,
     KeyboardOutlined,
     TimelineRounded, TuneRounded
-} from "@material-ui/icons";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+} from "@material-ui/icons"
+import ListItemIcon from "@material-ui/core/ListItemIcon"
 
 const useStyles = makeStyles((theme) => ({
     root: {
