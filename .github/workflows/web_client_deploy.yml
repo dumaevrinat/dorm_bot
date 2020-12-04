@@ -1,4 +1,4 @@
-name: Deploy dorm bot to GitHub Pages
+name: Deploy dorm bot web client to Heroku
 
 
 on:
@@ -12,27 +12,12 @@ jobs:
     env:
       workdir: ./web_client
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
+    
     steps:
-    - uses: actions/checkout@v1
-
-    - name: Use node.js ${{matrix.node-version}}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{matrix.node-version}}
-
-    - name: Install packages
-      run: npm install
-      working-directory: ${{env.workdir}}
-
-    - name: Deploy to GitHub Pages
-      working-directory: ${{env.workdir}}
-      run: |
-        git config --global user.email ${{secrets.EMAIL}}
-        git config --global user.name ${{secrets.USERNAME}}
-        git remote set-url origin https://${{secrets.PERSONAL_ACCESS_TOKEN}}@github.com/${{secrets.USERNAME}}/dorm_bot.git
-        CI=false npm run deploy
+     - uses: akhileshns/heroku-deploy@v3.4.6
+       with:
+         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+         heroku_app_name: ${{secrets.HEROKU_APP_NAME_WEB_CLIENT}}
+         heroku_email: ${{secrets.HEROKU_EMAIL}}
+         appdir: "web_client"
+         branch: "dev"
