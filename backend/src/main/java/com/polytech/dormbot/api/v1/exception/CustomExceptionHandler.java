@@ -1,9 +1,6 @@
 package com.polytech.dormbot.api.v1.exception;
 
-import com.polytech.dormbot.exception.NoSuchCommandException;
-import com.polytech.dormbot.exception.NoSuchDutyException;
-import com.polytech.dormbot.exception.NoSuchRegistrationException;
-import com.polytech.dormbot.exception.NoSuchUserException;
+import com.polytech.dormbot.exception.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.core.Ordered;
@@ -19,13 +16,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSuchCommandException.class)
-    protected ResponseEntity<Exception> handleNoSuchNotebookException() {
+    protected ResponseEntity<Exception> handleNoSuchCommandException() {
         return new ResponseEntity<>(new Exception(400, "No such command"), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NoSuchUserException.class)
-    protected ResponseEntity<Exception> handleNoSuchUserException() {
-        return new ResponseEntity<>(new Exception(400, "No such user"), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(NoSuchCommandResponseException.class)
+    protected ResponseEntity<Exception> handleNoSuchCommandResponseException() {
+        return new ResponseEntity<>(new Exception(400, "No such command response"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoSuchCommandSynonymException.class)
+    protected ResponseEntity<Exception> handleNoSuchCommandSynonymException() {
+        return new ResponseEntity<>(new Exception(400, "No such command synonym"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoSuchBotUserException.class)
+    protected ResponseEntity<Exception> handleNoSuchBotUserException() {
+        return new ResponseEntity<>(new Exception(400, "No such bot user"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoSuchDutyException.class)

@@ -5,7 +5,6 @@ import com.polytech.dormbot.api.v1.dto.UserData;
 import com.polytech.dormbot.config.security.JwtTokenUtils;
 import com.polytech.dormbot.entity.User;
 import com.polytech.dormbot.service.UserService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,13 +37,17 @@ public class AuthController {
     @PostMapping("login")
     public ResponseEntity<Object> login(@RequestBody UserData userData) {
         try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
+            Authentication authenticate = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(
+                            userData.getUsername(),
+                            userData.getPassword())
+                    );
 
             User user = (User) authenticate.getPrincipal();
 
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, jwtTokenUtils.generateAccessToken(user))
-                    .build();
+            return ResponseEntity
+                    .ok()
+                    .body(jwtTokenUtils.generateAccessToken(user));
 
         } catch (BadCredentialsException e) {
             return ResponseEntity
@@ -57,7 +60,7 @@ public class AuthController {
     public ResponseEntity<Object> register(@RequestBody UserData userData) {
         User user = mapper.convertToEntity(userData);
 
-        userService.addUser(user);
+        userService.add(user);
 
         return ResponseEntity.ok().build();
     }

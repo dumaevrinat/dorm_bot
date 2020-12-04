@@ -19,19 +19,19 @@ public class CommandSynonymService {
         this.commandSynonymRepository = commandSynonymRepository;
     }
 
-    public CommandSynonym getCommandSynonym(Long id) {
+    public CommandSynonym get(Long id) {
         return commandSynonymRepository.findById(id).orElseThrow(NoSuchCommandSynonymException::new);
     }
 
-    public List<CommandSynonym> getCommandSynonymsByCommandId(Long commandId) {
+    public List<CommandSynonym> getByCommandId(Long commandId) {
         return commandSynonymRepository.findAllByCommand_Id(commandId);
     }
 
-    public CommandSynonym addCommandSynonym(CommandSynonym commandSynonym) {
+    public CommandSynonym add(CommandSynonym commandSynonym) {
         return commandSynonymRepository.save(commandSynonym);
     }
 
-    public void deleteCommandSynonym(Long id) {
+    public void delete(Long id) {
         commandSynonymRepository.deleteById(id);
     }
 }

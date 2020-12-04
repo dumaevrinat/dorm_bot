@@ -25,7 +25,7 @@ public class CommandSynonymController {
 
     @GetMapping
     public List<CommandSynonymData> getCommandSynonymsByCommandId(@RequestParam Long commandId){
-        return commandSynonymService.getCommandSynonymsByCommandId(commandId)
+        return commandSynonymService.getByCommandId(commandId)
                 .stream()
                 .map(mapper::convertToData)
                 .collect(Collectors.toList());
@@ -33,18 +33,18 @@ public class CommandSynonymController {
 
     @GetMapping(value = "/{id}")
     public CommandSynonymData getSynonym(@PathVariable Long id) {
-        return mapper.convertToData(commandSynonymService.getCommandSynonym(id));
+        return mapper.convertToData(commandSynonymService.get(id));
     }
 
     @PostMapping
     public CommandSynonymData addCommandSynonym(@RequestBody CommandSynonymData commandSynonymData){
         CommandSynonym commandSynonym = mapper.convertToEntity(commandSynonymData);
 
-        return mapper.convertToData(commandSynonymService.addCommandSynonym(commandSynonym));
+        return mapper.convertToData(commandSynonymService.add(commandSynonym));
     }
 
     @DeleteMapping(value = "/{id}")
     public void deleteCommandSynonym(@PathVariable Long id) {
-        commandSynonymService.deleteCommandSynonym(id);
+        commandSynonymService.delete(id);
     }
 }

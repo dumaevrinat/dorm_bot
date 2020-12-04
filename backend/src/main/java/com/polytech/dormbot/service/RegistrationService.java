@@ -17,19 +17,19 @@ public class RegistrationService {
         this.registrationRepository = registrationRepository;
     }
 
-    public Registration getRegistration(Long id) {
+    public Registration get(Long id) {
         return registrationRepository.findById(id).orElseThrow(NoSuchRegistrationException::new);
     }
 
-    public List<Registration> getRegistrationsByBotUserId(Long userId) {
+    public List<Registration> getByBotUserId(Long userId) {
         return registrationRepository.findAllByBotUser_Id(userId);
     }
 
-    public Registration addRegistration(Registration registration) {
+    public Registration add(Registration registration) {
         return registrationRepository.save(registration);
     }
 
-    public void deleteRegistration(Long id) {
+    public void delete(Long id) {
         registrationRepository.deleteById(id);
     }
 }

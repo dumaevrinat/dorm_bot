@@ -56,6 +56,23 @@ public class Mapper {
 
         return commandSynonym;
     }
+
+    public CommandResponseData convertToData(CommandResponse commandResponse) {
+        CommandResponseData commandResponseData = modelMapper.map(commandResponse, CommandResponseData.class);
+        commandResponseData.setCommandId(commandResponse.getCommand().getId());
+
+        return commandResponseData;
+    }
+
+    public CommandResponse convertToEntity(CommandResponseData commandResponseData) {
+        CommandResponse commandResponse = modelMapper.map(commandResponseData, CommandResponse.class);
+
+        Command command = new Command();
+        command.setId(commandResponseData.getCommandId());
+        commandResponse.setCommand(command);
+
+        return commandResponse;
+    }
     
     public DutyData convertToData(Duty duty) {
         return modelMapper.map(duty, DutyData.class);

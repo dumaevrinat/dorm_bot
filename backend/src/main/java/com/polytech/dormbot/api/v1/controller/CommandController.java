@@ -33,7 +33,7 @@ public class CommandController {
 
     @GetMapping(value = "/{id}")
     public CommandData getCommand(@PathVariable Long id) {
-        Command command = commandService.getCommand(id);
+        Command command = commandService.get(id);
 
         return mapper.convertToData(command);
     }
@@ -42,11 +42,11 @@ public class CommandController {
     public CommandData addCommand(@RequestBody CommandData commandData){
         Command command = mapper.convertToEntity(commandData);
 
-        return mapper.convertToData(commandService.addCommand(command));
+        return mapper.convertToData(commandService.add(command));
     }
 
     @DeleteMapping(value = "/{id}")
     public void deleteCommand(@PathVariable Long id) {
-        commandService.deleteCommand(id);
+        commandService.delete(id);
     }
 }

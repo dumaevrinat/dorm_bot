@@ -22,17 +22,17 @@ public class BotUserController {
 
     @GetMapping(value = "/{id}")
     public BotUserData getBotUser(@PathVariable Long id) {
-        return mapper.convertToData(botUserService.getBotUser(id));
+        return mapper.convertToData(botUserService.get(id));
     }
 
     @PostMapping
     public BotUserData addBotUser(@RequestBody BotUserData botUserData){
         BotUser botUser = mapper.convertToEntity(botUserData);
-        return mapper.convertToData(botUserService.addBotUser(botUser));
+        return mapper.convertToData(botUserService.add(botUser));
     }
 
     @DeleteMapping(value = "/{id}")
     public void deleteDuty(@PathVariable Long id) {
-        botUserService.deleteBotUser(id);
+        botUserService.delete(id);
     }
 }

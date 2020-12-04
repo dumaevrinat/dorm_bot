@@ -1,7 +1,7 @@
 package com.polytech.dormbot.service;
 
 import com.polytech.dormbot.entity.BotUser;
-import com.polytech.dormbot.exception.NoSuchUserException;
+import com.polytech.dormbot.exception.NoSuchBotUserException;
 import com.polytech.dormbot.repository.BotUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,15 @@ public class BotUserService {
         this.botUserRepository = botUserRepository;
     }
 
-    public BotUser getBotUser(Long id) {
-        return botUserRepository.findById(id).orElseThrow(NoSuchUserException::new);
+    public BotUser get(Long id) {
+        return botUserRepository.findById(id).orElseThrow(NoSuchBotUserException::new);
     }
 
-    public BotUser addBotUser(BotUser botUser) {
+    public BotUser add(BotUser botUser) {
         return botUserRepository.save(botUser);
     }
 
-    public void deleteBotUser(Long id) {
+    public void delete(Long id) {
         botUserRepository.deleteById(id);
     }
 }
