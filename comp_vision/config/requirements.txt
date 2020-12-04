@@ -1,0 +1,6 @@
+pillow == 8.0.1
+opencv-python == 4.4.0.46
+pytesseract == 0.3.6
+setuptools == 40.8.0
+six == 1.15.0
+protobuf == 3.14.0

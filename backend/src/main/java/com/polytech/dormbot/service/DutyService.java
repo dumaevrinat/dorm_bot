@@ -21,15 +21,15 @@ public class DutyService {
         return dutyRepository.findAll();
     }
 
-    public Duty getDuty(Long id) {
+    public Duty get(Long id) {
         return dutyRepository.findById(id).orElseThrow(NoSuchDutyException::new);
     }
 
-    public Duty addDuty(Duty duty) {
+    public Duty add(Duty duty) {
         return dutyRepository.save(duty);
     }
 
-    public void deleteDuty(Long id) {
+    public void delete(Long id) {
         dutyRepository.deleteById(id);
     }
 }

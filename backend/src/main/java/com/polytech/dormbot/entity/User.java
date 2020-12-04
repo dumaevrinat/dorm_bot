@@ -1,35 +1,58 @@
 package com.polytech.dormbot.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@Table(name = "users")
-public class User {
+@NoArgsConstructor
+@Table(name = "web_users")
+public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "full_name", nullable = false)
-    private String fullName;
+    @Column(name = "username", nullable = false)
+    private String username;
 
-    @Column(name = "vk_id", nullable = false)
-    private Long vkId;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "room_number", nullable = false)
-    private Integer roomNumber;
+    @Transient
+    private List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("user"));
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
+    @Transient
+    private boolean enabled = true;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Set<Registration> registrations;
+    @Override
+    public boolean isAccountNonExpired() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

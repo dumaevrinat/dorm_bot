@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
-    List<Registration> findAllByUser_Id(Long id);
+    List<Registration> findAllByBotUser_Id(Long id);
 }

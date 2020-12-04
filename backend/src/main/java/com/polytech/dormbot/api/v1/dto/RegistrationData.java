@@ -9,5 +9,5 @@ public class RegistrationData {
     private Long id;
     private String roomType;
     private Date date;
-    private Long userId;
+    private Long botUserId;
 }

@@ -18,9 +18,15 @@ public class Duty {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
+    @Column(name = "floor", nullable = false)
+    private Integer floor;
+
     @Column(name = "room_number", nullable = false)
     private Integer roomNumber;
 
     @Column(name = "date", nullable = false)
     private Date date;
+
+    @Column(name = "mark", nullable = false)
+    private Integer mark;
 }

@@ -25,12 +25,12 @@ public class RegistrationController {
 
     @GetMapping(value = "/{id}")
     public RegistrationData getRegistration(@PathVariable Long id) {
-        return mapper.convertToData(registrationService.getRegistration(id));
+        return mapper.convertToData(registrationService.get(id));
     }
 
     @GetMapping
-    public List<RegistrationData> getRegistrationsByUserId(@RequestParam Long userId) {
-        return registrationService.getRegistrationsByUserId(userId)
+    public List<RegistrationData> getRegistrationsByBotUserId(@RequestParam Long botUserId) {
+        return registrationService.getByBotUserId(botUserId)
                 .stream()
                 .map(mapper::convertToData)
                 .collect(Collectors.toList());
@@ -40,11 +40,11 @@ public class RegistrationController {
     public RegistrationData addRegistration(@RequestBody RegistrationData registrationData){
         Registration registration = mapper.convertToEntity(registrationData);
 
-        return mapper.convertToData(registrationService.addRegistration(registration));
+        return mapper.convertToData(registrationService.add(registration));
     }
 
     @DeleteMapping(value = "/{id}")
     public void deleteRegistration(@PathVariable Long id) {
-        registrationService.deleteRegistration(id);
+        registrationService.delete(id);
     }
 }

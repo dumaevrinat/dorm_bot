@@ -33,17 +33,17 @@ public class DutyController {
 
     @GetMapping(value = "/{id}")
     public DutyData getDuty(@PathVariable Long id) {
-        return mapper.convertToData(dutyService.getDuty(id));
+        return mapper.convertToData(dutyService.get(id));
     }
 
     @PostMapping
     public DutyData addDuty(@RequestBody DutyData dutyData){
         Duty duty = mapper.convertToEntity(dutyData);
-        return mapper.convertToData(dutyService.addDuty(duty));
+        return mapper.convertToData(dutyService.add(duty));
     }
 
     @DeleteMapping(value = "/{id}")
     public void deleteDuty(@PathVariable Long id) {
-        dutyService.deleteDuty(id);
+        dutyService.delete(id);
     }
 }

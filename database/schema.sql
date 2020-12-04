@@ -1,3 +1,10 @@
+-- Пользователи веб приложения
+create table web_users (
+    id int primary key auto_increment,
+    username varchar(250) not null unique,
+    password varchar(250) not null
+);
+
 -- Дежурство
 -- mark - молодцы или не молодцы товарищи [ТЗ BS-11]
 create table duties (
@@ -7,7 +14,6 @@ create table duties (
   date timestamp not null,
   mark int not null
 );
-
 
 -- Пользователи бота
 create table users (
@@ -19,21 +25,11 @@ create table users (
   type varchar(250) not null
 );
 
--- Запись в спортзал
-create table registrations_sport (
+-- Запись в комнату (учебная комната, спортзал, ...)
+create table registrations (
   id int primary key auto_increment,
   user_id int not null,
-  date timestamp not null,
-
-  constraint registration_ibfk_1
-      foreign key (user_id) references users (id)
-          on delete cascade
-);
-
--- Запись в учебку
-create table registrations_studyroom (
-  id int primary key auto_increment,
-  user_id int not null,
+  room_type varchar(250) not null,
   date timestamp not null,
 
   constraint registration_ibfk_1
@@ -50,7 +46,6 @@ create table commands (
   is_active boolean not null,
   priority int not null
 );
-
 
 -- Статистика по командам
 create table command_statistics (
@@ -85,7 +80,6 @@ create table command_synonyms (
       foreign key (command_id) references commands (id)
           on delete cascade
 );
-
 
 -- информация о комнатах, id=номер
 -- alive=1 сейчас комната не пустует, alive = 0 - пустует
