@@ -8,38 +8,72 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import Typography from "@material-ui/core/Typography";
 import {Toolbar} from "@material-ui/core";
+import {
+    ForumOutlined, HomeOutlined,
+    KeyboardOutlined,
+    TimelineRounded, TuneRounded
+} from "@material-ui/icons";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100%',
+        padding: theme.spacing(0, 1)
+    },
+    drawerItem: {
+        borderRadius: theme.spacing(1, 1, 1, 1)
+    },
+    paper: {
+        width: 300,
+        border: 'none',
     },
     list: {
-        width: 250,
+        padding: theme.spacing(1)
     }
 }))
 
 const pages = [
     {
         title: 'Главная',
-        path: ''
+        icon: <HomeOutlined/>,
+        path: '/'
     },
     {
         title: 'Настройки бота',
-        path: 'bot_settings'
+        icon: <TuneRounded/>,
+        path: '/app/bot_settings'
     },
     {
         title: 'Настройки команд',
-        path: 'command_settings'
+        icon: <ForumOutlined/>,
+        path: '/app/command_settings'
     },
     {
         title: 'Настройки клавиатуры',
-        path: 'keyboard_settings'
+        icon: <KeyboardOutlined/>,
+        path: '/app/keyboard_settings'
     },
     {
         title: 'Статистика',
-        path: 'statistics'
+        icon: <TimelineRounded/>,
+        path: '/app/statistics'
     }
 ]
+
+function DrawerItem({text, icon, onClick}) {
+    const classes = useStyles()
+
+    return (
+        <ListItem
+            button
+            className={classes.drawerItem}
+            onClick={() => onClick()}
+        >
+            <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemText primary={text}/>
+        </ListItem>
+    )
+}
 
 export default function NavDrawer({open}) {
     const classes = useStyles()
@@ -48,7 +82,7 @@ export default function NavDrawer({open}) {
     const {toggleDrawer} = useContext(Context)
 
     const goPage = (pagePath) => {
-        history.push(`/${pagePath}`)
+        history.push(pagePath)
         toggleDrawer()
     }
 
@@ -57,6 +91,9 @@ export default function NavDrawer({open}) {
             anchor='left'
             open={open}
             onClose={() => toggleDrawer()}
+            classes={{
+                paper: classes.paper,
+            }}
         >
             <Toolbar>
                 <Typography variant="h6">
@@ -65,12 +102,12 @@ export default function NavDrawer({open}) {
             </Toolbar>
             <List className={classes.list}>
                 {pages.map(page =>
-                    <ListItem
-                        button
+                    <DrawerItem
                         key={page.path}
-                        onClick={() => goPage(page.path)}>
-                        <ListItemText primary={page.title}/>
-                    </ListItem>
+                        text={page.title}
+                        onClick={() => goPage(page.path)}
+                        icon={page.icon}
+                    />
                 )}
             </List>
         </Drawer>
