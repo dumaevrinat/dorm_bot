@@ -1,19 +1,19 @@
 import React, {useState} from 'react'
-import store from "../../store"
-import {Provider} from 'react-redux'
-import {HashRouter, Route, Switch} from "react-router-dom"
+import {useSelector} from 'react-redux'
+import {Redirect, BrowserRouter, Route, Switch} from "react-router-dom"
 import {Container, createMuiTheme, responsiveFontSizes} from "@material-ui/core"
 import {makeStyles} from "@material-ui/core/styles"
 import {ThemeProvider} from "@material-ui/styles"
 import HomePage from "../Pages/HomePage"
 import Context from "../../context"
 import NavDrawer from "../NavDrawer"
-import Header from "../Header";
-import BotSettingsPage from "../Pages/BotSettingsPage";
-import CommandSettingsPage from "../Pages/CommandSettingsPage";
-import KeyboardSettingsPage from "../Pages/KeyboardSettingsPage";
-import StatisticsPage from "../Pages/StatisticsPage";
-import Toolbar from "@material-ui/core/Toolbar";
+import Header from "../Header"
+import BotSettingsPage from "../Pages/BotSettingsPage"
+import CommandSettingsPage from "../Pages/CommandSettingsPage"
+import KeyboardSettingsPage from "../Pages/KeyboardSettingsPage"
+import StatisticsPage from "../Pages/StatisticsPage"
+import Toolbar from "@material-ui/core/Toolbar"
+import LoginPage from "../Pages/LoginPage"
 
 const customTheme = createMuiTheme({
     palette: {
@@ -42,9 +42,7 @@ const customTheme = createMuiTheme({
 })
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-
-    },
+    root: {},
     content: {
         display: 'flex',
         flexDirection: 'column',
@@ -53,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function App() {
+function AppLayout({children}) {
     const classes = useStyles()
 
     const [isOpenDrawer, setIsOpenDrawer] = useState(false)
@@ -63,27 +61,71 @@ export default function App() {
     }
 
     return (
-        <Provider store={store}>
-            <ThemeProvider theme={responsiveFontSizes(customTheme)}>
-                <Context.Provider value={{toggleDrawer}}>
-                    <HashRouter>
-                        <Header/>
-                        <Toolbar/>
+        <div>
+            <Context.Provider value={{toggleDrawer}}>
+                <div>
+                    <Header/>
+                    <Toolbar/>
 
-                        <NavDrawer open={isOpenDrawer}/>
+                    <NavDrawer open={isOpenDrawer}/>
 
-                        <Container maxWidth="md" className={classes.content}>
+                    <Container maxWidth="md" className={classes.content}>
+                        {children}
+                    </Container>
+                </div>
+            </Context.Provider>
+        </div>
+    )
+}
+
+function DefaultLayout({children}) {
+    const classes = useStyles()
+
+    return (
+        <div>
+            <Container maxWidth="md" className={classes.content}>
+                {children}
+            </Container>
+        </div>
+    )
+}
+
+export default function App() {
+
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+
+    return (
+        <ThemeProvider theme={responsiveFontSizes(customTheme)}>
+            <BrowserRouter>
+                <Switch>
+                    <Route path='/app' render={({match: {path}}) => (
+                        isAuthenticated ?
+                            <AppLayout>
+                                <Switch>
+                                    <Route path={`${path}/bot_settings`} exact component={BotSettingsPage}/>
+                                    <Route path={`${path}/command_settings`} exact component={CommandSettingsPage}/>
+                                    <Route path={`${path}/keyboard_settings`} exact component={KeyboardSettingsPage}/>
+                                    <Route path={`${path}/statistics`} exact component={StatisticsPage}/>
+                                    <Redirect from={`${path}/*`} to='/'/>
+                                </Switch>
+                            </AppLayout>
+                            :
+                            <Redirect to='/'/>
+                    )}/>
+
+                    <Route exact>
+                        <DefaultLayout>
                             <Switch>
                                 <Route path='/' exact component={HomePage}/>
-                                <Route path='/bot_settings' component={BotSettingsPage}/>
-                                <Route path='/command_settings' component={CommandSettingsPage}/>
-                                <Route path='/keyboard_settings' component={KeyboardSettingsPage}/>
-                                <Route path='/statistics' component={StatisticsPage}/>
+                                <Route path='/login' exact component={LoginPage}/>
+                                <Redirect from='/*' to='/'/>
                             </Switch>
-                        </Container>
-                    </HashRouter>
-                </Context.Provider>
-            </ThemeProvider>
-        </Provider>
+                        </DefaultLayout>
+                    </Route>
+
+                    <Redirect from='*' to='/'/>
+                </Switch>
+            </BrowserRouter>
+        </ThemeProvider>
     )
 }
