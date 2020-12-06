@@ -12,15 +12,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-@Table(name = "command_synonyms")
-public class CommandSynonym {
+@Table(name = "command_responses")
+public class CommandResponse {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "synonym", nullable = false)
-    private String synonym;
+    @Column(name = "response", nullable = false)
+    private String response;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "command_id", referencedColumnName = "id", nullable = false)

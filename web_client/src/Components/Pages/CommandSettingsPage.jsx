@@ -11,9 +11,13 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
         display: "flex",
         flexDirection: 'column',
+        alignItems: 'center'
     },
     info: {
         marginBottom: theme.spacing(4)
+    },
+    commands: {
+        width: '100%'
     }
 }))
 
@@ -37,15 +41,19 @@ export default function CommandSettingsPage() {
             </Typography>
 
             {commandsStatus === 'loading' && <CircularProgress/>}
-            {commandsStatus === 'succeeded' && commands.map(command =>
-                <Command
-                    mainName={command.mainName}
-                    isActive={command.isActive}
-                    priority={command.priority}
-                    synonyms={command.synonyms}
-                    responses={command.responses}
-                />
-            )}
+
+            <div className={classes.commands}>
+                {commandsStatus === 'succeeded' && commands.map(command =>
+                    <Command
+                        key={command.id}
+                        mainName={command.name}
+                        isActive={command.isActive}
+                        priority={command.priority}
+                        synonyms={command.commandSynonyms}
+                        responses={command.commandResponses}
+                    />
+                )}
+            </div>
         </div>
     )
 }

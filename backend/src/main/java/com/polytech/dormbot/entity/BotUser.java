@@ -3,15 +3,17 @@ package com.polytech.dormbot.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@Table(name = "bot_users")
+@Table(name = "users")
 public class BotUser {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,6 +32,10 @@ public class BotUser {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    private Set<Registration> registrations;
+    @Column(name = "type", nullable = false)
+    private String type;
+
+    @OneToMany(mappedBy = "botUser", cascade = CascadeType.REMOVE)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Registration> registrations;
 }

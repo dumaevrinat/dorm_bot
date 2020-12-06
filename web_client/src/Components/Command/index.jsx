@@ -110,7 +110,7 @@ export default function Command({mainName, isActive, priority, synonyms, respons
                     </Typography>
                     <div className={classes.synonyms}>
                         {synonyms.map(synonym =>
-                            <Chip label={synonym} key={synonym}/>
+                            <Chip label={synonym.synonym} key={synonym.id}/>
                         )}
                     </div>
 
@@ -119,10 +119,10 @@ export default function Command({mainName, isActive, priority, synonyms, respons
                     </Typography>
                     <List>
                         {responses.map((response, index) =>
-                            <div key={response}>
+                            <div key={response.id}>
                                 <ListItem className={classes.response}>
                                     <Typography className={classes.responseText}>
-                                        {response}
+                                        {response.response}
                                     </Typography>
                                 </ListItem>
                                 {index !== responses.length - 1 && <Divider/>}
@@ -133,14 +133,10 @@ export default function Command({mainName, isActive, priority, synonyms, respons
             </Collapse>
 
             <CardActions className={classes.actions}>
-                <Button
-                    // startIcon={<EditRounded/>}
-                >
+                <Button>
                     Редактировать
                 </Button>
-                <Button
-                    // startIcon={<DeleteOutlineRounded/>}
-                >
+                <Button>
                     Удалить
                 </Button>
             </CardActions>

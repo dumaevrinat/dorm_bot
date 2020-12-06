@@ -17,7 +17,7 @@ import java.util.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "web_users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
