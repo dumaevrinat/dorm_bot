@@ -12,7 +12,8 @@ def load_text_from_img(img_name):
     try:
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     except cv2.error:
-        return False
+        raise FileNotFoundError('Image not found.')
+
 
     if preprocess == "thresh":
         gray = cv2.threshold(gray, 0, 255,
