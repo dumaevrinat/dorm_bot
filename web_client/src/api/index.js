@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const baseUrl = 'https://polytech-dorm-bot.herokuapp.com'
+
 export const setAuthorizationToken = (token) => {
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -8,12 +10,11 @@ export const setAuthorizationToken = (token) => {
     }
 }
 
-export const getCommands = () => {
-    return axios.get('https://polytech-dorm-bot.herokuapp.com/api/v1/commands')
-}
-
-export const login = (username, password) => {
-    return axios.post('https://polytech-dorm-bot.herokuapp.com/api/v1/auth/login', {
+export const api = {
+    getCommands: () => axios.get(`${baseUrl}/api/v1/commands`),
+    saveCommand: (command) => axios.post(`${baseUrl}/api/v1/commands`, command),
+    deleteCommand: (commandId) => axios.delete(`${baseUrl}/api/v1/commands/${commandId}`),
+    login: (username, password) => axios.post(`${baseUrl}/api/v1/auth/login`, {
         username: username,
         password: password
     })

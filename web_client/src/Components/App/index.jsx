@@ -14,6 +14,7 @@ import KeyboardSettingsPage from "../Pages/KeyboardSettingsPage"
 import StatisticsPage from "../Pages/StatisticsPage"
 import Toolbar from "@material-ui/core/Toolbar"
 import LoginPage from "../Pages/LoginPage"
+import Notifier from "../Notifier";
 
 const customTheme = createMuiTheme({
     palette: {
@@ -64,6 +65,8 @@ function AppLayout({children}) {
         <div>
             <Context.Provider value={{toggleDrawer}}>
                 <div>
+                    <Notifier/>
+
                     <Header/>
                     <Toolbar/>
 
@@ -83,6 +86,8 @@ function DefaultLayout({children}) {
 
     return (
         <div>
+            <Notifier/>
+
             <Container maxWidth="md" className={classes.content}>
                 {children}
             </Container>

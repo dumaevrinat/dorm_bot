@@ -6,6 +6,8 @@ import com.polytech.dormbot.repository.BotUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BotUserService {
     private final BotUserRepository botUserRepository;
@@ -19,7 +21,11 @@ public class BotUserService {
         return botUserRepository.findById(id).orElseThrow(NoSuchBotUserException::new);
     }
 
-    public BotUser add(BotUser botUser) {
+    public List<BotUser> getAll() {
+        return (List<BotUser>) botUserRepository.findAll();
+    }
+
+    public BotUser save(BotUser botUser) {
         return botUserRepository.save(botUser);
     }
 

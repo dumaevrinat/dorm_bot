@@ -18,14 +18,14 @@ public class DutyService {
     }
 
     public List<Duty> getAll() {
-        return dutyRepository.findAll();
+        return (List<Duty>) dutyRepository.findAll();
     }
 
     public Duty get(Long id) {
         return dutyRepository.findById(id).orElseThrow(NoSuchDutyException::new);
     }
 
-    public Duty add(Duty duty) {
+    public Duty save(Duty duty) {
         return dutyRepository.save(duty);
     }
 

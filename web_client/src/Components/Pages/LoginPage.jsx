@@ -31,8 +31,8 @@ export default function LoginPage() {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const [username, setUsername] = useState('user')
-    const [password, setPassword] = useState('user')
+    const [username, setUsername] = useState(undefined)
+    const [password, setPassword] = useState(undefined)
 
     const status = useSelector(state => state.auth.status)
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)

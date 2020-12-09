@@ -8,7 +8,6 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -32,13 +31,13 @@ public class Command {
 
     @OneToMany(mappedBy = "command", cascade = CascadeType.REMOVE)
     @Fetch(FetchMode.SUBSELECT)
-    private Set<CommandStatistic> commandStatistics;
+    private List<CommandStatistic> commandStatistics;
 
-    @OneToMany(mappedBy = "command", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "command", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
-    private Set<CommandSynonym> commandSynonyms;
+    private List<CommandSynonym> commandSynonyms;
 
-    @OneToMany(mappedBy = "command", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "command", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
-    private Set<CommandResponse> commandResponses;
+    private List<CommandResponse> commandResponses;
 }
