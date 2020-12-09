@@ -9,4 +9,6 @@ public class DutyData {
     private Long id;
     private Integer roomNumber;
     private Date date;
+    private Integer floor;
+    private Integer mark;
 }

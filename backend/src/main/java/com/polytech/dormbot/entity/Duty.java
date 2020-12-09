@@ -25,6 +25,7 @@ public class Duty {
     private Integer roomNumber;
 
     @Column(name = "date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @Column(name = "mark", nullable = false)

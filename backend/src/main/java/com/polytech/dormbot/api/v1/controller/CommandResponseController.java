@@ -24,7 +24,7 @@ public class CommandResponseController {
     }
 
     @GetMapping
-    public List<CommandResponseData> getCommandResponsesByCommandId(@RequestParam Long commandId){
+    public List<CommandResponseData> getByCommandId(@RequestParam Long commandId){
         return commandResponseService.getByCommandId(commandId)
                 .stream()
                 .map(mapper::convertToData)
@@ -32,19 +32,19 @@ public class CommandResponseController {
     }
 
     @GetMapping(value = "/{id}")
-    public CommandResponseData getSynonym(@PathVariable Long id) {
+    public CommandResponseData get(@PathVariable Long id) {
         return mapper.convertToData(commandResponseService.get(id));
     }
 
     @PostMapping
-    public CommandResponseData addCommandResponse(@RequestBody CommandResponseData commandResponseData){
+    public CommandResponseData save(@RequestBody CommandResponseData commandResponseData){
         CommandResponse commandResponse = mapper.convertToEntity(commandResponseData);
 
-        return mapper.convertToData(commandResponseService.add(commandResponse));
+        return mapper.convertToData(commandResponseService.save(commandResponse));
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteCommandResponse(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         commandResponseService.delete(id);
     }
 }

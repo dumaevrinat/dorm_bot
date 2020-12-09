@@ -24,7 +24,7 @@ public class DutyController {
     }
 
     @GetMapping
-    public List<DutyData> getDuties(){
+    public List<DutyData> getAll(){
         return dutyService.getAll()
                 .stream()
                 .map(mapper::convertToData)
@@ -32,18 +32,18 @@ public class DutyController {
     }
 
     @GetMapping(value = "/{id}")
-    public DutyData getDuty(@PathVariable Long id) {
+    public DutyData get(@PathVariable Long id) {
         return mapper.convertToData(dutyService.get(id));
     }
 
     @PostMapping
-    public DutyData addDuty(@RequestBody DutyData dutyData){
+    public DutyData save(@RequestBody DutyData dutyData){
         Duty duty = mapper.convertToEntity(dutyData);
-        return mapper.convertToData(dutyService.add(duty));
+        return mapper.convertToData(dutyService.save(duty));
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteDuty(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         dutyService.delete(id);
     }
 }
