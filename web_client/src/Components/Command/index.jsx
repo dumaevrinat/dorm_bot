@@ -1,30 +1,43 @@
 import React, {useState} from "react"
 import {makeStyles} from "@material-ui/core/styles"
-import {CardContent, Divider, Typography} from "@material-ui/core"
+import {CardContent, Typography} from "@material-ui/core"
 import Card from "@material-ui/core/Card"
 import Switch from "@material-ui/core/Switch";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
-import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Collapse from "@material-ui/core/Collapse";
+import {useDispatch} from "react-redux";
+import {deleteCommand, updateCommand, updateCommandState} from "../../slices/commandsSlice";
+import InputBase from "@material-ui/core/InputBase";
+import Context from '../../context'
+import Responses from "./Responses";
+import Synonyms from "./Synonyms";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(2),
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1)
+        marginBottom: theme.spacing(2)
     },
     header: {
         display: "flex",
         alignItems: "center"
     },
     title: {
-        marginRight: theme.spacing(1)
+        maxWidth: 150,
+        marginRight: theme.spacing(1),
+        height: theme.typography.h6.fontSize,
+        fontSize: theme.typography.h6.fontSize,
+        fontWeight: theme.typography.h6.fontWeight,
+    },
+    priority: {
+        maxWidth: 50,
+        height: theme.typography.subtitle2.fontSize,
+        fontSize: theme.typography.subtitle2.fontSize,
+        fontWeight: theme.typography.subtitle2.fontWeight,
+        color: theme.palette.text.secondary
     },
     content: {
         paddingLeft: 0,
@@ -36,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
     actions: {
         paddingLeft: 0,
         paddingRight: 0,
+        marginLeft: 'auto'
     },
     synonyms: {
         display: 'flex',
@@ -44,102 +58,165 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
         },
     },
-    response: {
-        display: 'flex',
-        overflow: 'auto',
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1)
-    },
-    responseText: {
-        whiteSpace: 'pre-line'
-    },
     active: {
         marginRight: theme.spacing(2)
     },
     expand: {
+        marginLeft: theme.spacing(1),
         transform: 'rotate(0deg)',
-        marginLeft: 'auto',
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest,
         }),
+    },
+    indent: {
+        marginLeft: 'auto',
     },
     expandOpen: {
         transform: 'rotate(180deg)',
     },
 }))
 
-export default function Command({mainName, isActive, priority, synonyms, responses}) {
+export default function Command({command}) {
     const classes = useStyles()
+    const dispatch = useDispatch()
 
     const [expanded, setExpanded] = useState(false)
+    const [hasChanges, setHasChanges] = useState(false)
 
-    const changeActive = (event) => {
-        //!
-        console.log(event.target.checked)
+    const [expandedSynonyms, setExpandedSynonyms] = useState(false)
+    const [expandedResponses, setExpandedResponses] = useState(false)
+
+
+    const handleActive = (command) => {
+        dispatch(updateCommand({
+            ...command,
+            isActive: !command.isActive
+        }))
+    }
+
+    const handleChangeName = (name) => {
+        setHasChanges(true)
+        dispatch(updateCommandState({...command, name: name}))
+    }
+
+    const handleChangePriority = (priority) => {
+        setHasChanges(true)
+        dispatch(updateCommandState({...command, priority: priority}))
+    }
+
+    const handleChangeSynonyms = (synonyms) => {
+        setHasChanges(true)
+        dispatch(updateCommandState({...command, commandSynonyms: synonyms}))
+    }
+
+    const handleChangeResponses = (responses) => {
+        setHasChanges(true)
+        dispatch(updateCommandState({...command, commandResponses: responses}))
+    }
+
+    const handleDelete = (commandId) => {
+        dispatch(deleteCommand(commandId))
+    }
+
+    const save = () => {
+        dispatch(updateCommand(command))
+        setHasChanges(false)
     }
 
     return (
         <Card variant="outlined" className={classes.root}>
-            <div className={classes.header}>
-                <Switch
-                    color='primary'
-                    className={classes.active}
-                    checked={isActive}
-                    onChange={changeActive}
-                />
-                <Typography className={classes.title} variant='h6'>
-                    {mainName}
-                </Typography>
-                <Typography color='textSecondary' variant="subtitle2">
-                    {priority}
-                </Typography>
-                <IconButton
-                    className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
-                    })}
-                    onClick={() => setExpanded(!expanded)}
-                >
-                    <ExpandMoreIcon />
-                </IconButton>
-            </div>
+            <Context.Provider value={{handleChangeResponses, handleChangeSynonyms}}>
+                <div className={classes.header}>
+                    <Switch
+                        color='primary'
+                        className={classes.active}
+                        checked={command.isActive}
+                        onChange={() => handleActive(command)}
+                    />
+                    <InputBase
+                        className={classes.title}
+                        value={command.name}
+                        onChange={(event) => handleChangeName(event.target.value)}
+                    />
 
-            <Collapse in={expanded}>
-                <CardContent className={classes.content}>
-                    <Typography className={classes.contentSubtitle} variant="subtitle2">
-                        Синонимы
-                    </Typography>
-                    <div className={classes.synonyms}>
-                        {synonyms.map(synonym =>
-                            <Chip label={synonym.synonym} key={synonym.id}/>
-                        )}
-                    </div>
+                    <InputBase
+                        className={classes.priority}
+                        type='number'
+                        value={command.priority}
+                        onChange={(event) => handleChangePriority(event.target.value)}
+                    />
 
-                    <Typography className={classes.contentSubtitle} variant="subtitle2">
-                        Ответы
-                    </Typography>
-                    <List>
-                        {responses.map((response, index) =>
-                            <div key={response.id}>
-                                <ListItem className={classes.response}>
-                                    <Typography className={classes.responseText}>
-                                        {response.response}
-                                    </Typography>
-                                </ListItem>
-                                {index !== responses.length - 1 && <Divider/>}
-                            </div>
-                        )}
-                    </List>
-                </CardContent>
-            </Collapse>
+                    <IconButton
+                        className={clsx(classes.expand, classes.indent, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={() => setExpanded(!expanded)}
+                    >
+                        <ExpandMoreIcon/>
+                    </IconButton>
+                </div>
 
-            <CardActions className={classes.actions}>
-                <Button>
-                    Редактировать
-                </Button>
-                <Button>
-                    Удалить
-                </Button>
-            </CardActions>
+                <Collapse in={expanded}>
+                    <CardContent className={classes.content}>
+                        <div className={classes.header}>
+                            <Typography className={classes.contentSubtitle} paragraph variant="subtitle2">
+                                Синонимы
+                            </Typography>
+                            <IconButton
+                                size='small'
+                                className={clsx(classes.expand, {
+                                    [classes.expandOpen]: expandedSynonyms,
+                                })}
+                                onClick={() => setExpandedSynonyms(!expandedSynonyms)}
+                            >
+                                <ExpandMoreIcon/>
+                            </IconButton>
+                        </div>
+
+                        <Collapse in={expandedSynonyms}>
+                            <Synonyms synonyms={command.commandSynonyms} commandId={command.id}/>
+                        </Collapse>
+
+                        <div className={classes.header}>
+                            <Typography className={classes.contentSubtitle} paragraph variant="subtitle2">
+                                Ответы
+                            </Typography>
+                            <IconButton
+                                size='small'
+                                className={clsx(classes.expand, {
+                                    [classes.expandOpen]: expandedResponses,
+                                })}
+                                onClick={() => setExpandedResponses(!expandedResponses)}
+                            >
+                                <ExpandMoreIcon/>
+                            </IconButton>
+                        </div>
+
+                        <Collapse in={expandedResponses}>
+                            <Responses responses={command.commandResponses} commandId={command.id}/>
+                        </Collapse>
+
+                    </CardContent>
+
+                    <CardActions className={classes.actions}>
+                        {hasChanges &&
+                        <Button
+                            color='primary'
+                            variant='contained'
+                            disableElevation
+                            onClick={() => save()}
+                        >
+                            Сохранить
+                        </Button>
+                        }
+
+                        <Button onClick={() => handleDelete(command.id)}>
+                            Удалить
+                        </Button>
+                    </CardActions>
+                </Collapse>
+            </Context.Provider>
+
         </Card>
     )
 }

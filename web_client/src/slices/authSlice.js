@@ -1,15 +1,19 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {login, setAuthorizationToken} from "../api";
+import {api, setAuthorizationToken} from "../api";
+import {createError} from "./errorSlice";
 
 
-export const fetchLogin = createAsyncThunk(
-    'auth/login',
-    async ({username, password}) => {
-        const response = await login(username, password)
+export const fetchLogin = createAsyncThunk('auth/login', async ({username, password}, {dispatch, rejectWithValue}) => {
+        try {
+            const response = await api.login(username, password)
 
-        return {
-            username: username,
-            token: response.data
+            return {
+                username: username,
+                token: response.data
+            }
+        } catch (e) {
+            dispatch(createError('Не удалось войти'))
+            return rejectWithValue(e)
         }
     }
 )
@@ -18,7 +22,6 @@ const initialState = {
     user: null,
     isAuthenticated: false,
     status: 'idle',
-    error: null
 }
 
 const authSlice = createSlice({
@@ -45,7 +48,6 @@ const authSlice = createSlice({
         },
         [fetchLogin.rejected]: (state, action) => {
             state.status = 'failed'
-            state.error = action.error.message
         }
     }
 })
