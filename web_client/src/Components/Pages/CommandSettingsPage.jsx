@@ -9,6 +9,7 @@ import CommandAddDialog from "../CommandAddDialog";
 import Card from "@material-ui/core/Card";
 import {AddRounded} from "@material-ui/icons";
 import CardActionArea from "@material-ui/core/CardActionArea";
+import Grow from "@material-ui/core/Grow";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     addAction: {
         width: '100%',
-        marginBottom: theme.spacing(2)
+        marginTop: theme.spacing(2)
     },
     addActionArea: {
         width: '100%',
@@ -49,10 +50,8 @@ export default function CommandSettingsPage() {
     const [isOpenCommandAddDialog, setIsOpenCommandAddDialog] = useState(false)
 
     useEffect(() => {
-        if (commandsStatus === 'idle') {
-            dispatch(fetchCommands())
-        }
-    }, [commandsStatus, dispatch])
+        dispatch(fetchCommands())
+    }, [])
 
     return (
         <div className={classes.root}>
@@ -60,26 +59,27 @@ export default function CommandSettingsPage() {
                 На этой странице можно создать новые команды для бота, настроить уже существующие.
             </Typography>
 
-            <Card
-                className={classes.addAction}
-                variant='outlined'
-                onClick={() => setIsOpenCommandAddDialog(true)}
-            >
-                <CardActionArea className={classes.addActionArea}>
-                        <AddRounded/>
-                        <Typography variant='subtitle2'>Добавить</Typography>
-                </CardActionArea>
-            </Card>
-
             {commandsStatus === 'loading' && <CircularProgress/>}
             <div className={classes.commands}>
                 {commandsStatus === 'succeeded' && commands.map(command =>
-                    <Command
-                        key={command.id}
-                        command={command}
-                    />
+                    <Grow key={command.id} in>
+                        <Command
+                            command={command}
+                        />
+                    </Grow>
                 )}
             </div>
+
+            <Card
+                className={classes.addAction}
+                onClick={() => setIsOpenCommandAddDialog(true)}
+            >
+                <CardActionArea className={classes.addActionArea}>
+                    <AddRounded/>
+                    <Typography variant='subtitle2'>Добавить</Typography>
+                </CardActionArea>
+            </Card>
+
             <CommandAddDialog open={isOpenCommandAddDialog} onClose={() => setIsOpenCommandAddDialog(false)}/>
         </div>
     )

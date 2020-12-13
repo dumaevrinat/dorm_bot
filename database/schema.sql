@@ -5,6 +5,13 @@ create table web_users (
     password varchar(250) not null
 );
 
+-- Клавиатуры бота
+create table keyboards (
+    id int primary key auto_increment,
+    name varchar(250) not null,
+    data json not null
+);
+
 -- Дежурство
 -- mark - молодцы или не молодцы товарищи [ТЗ BS-11]
 create table duties (

@@ -124,7 +124,7 @@ export default function Command({command}) {
     }
 
     return (
-        <Card variant="outlined" className={classes.root}>
+        <Card className={classes.root}>
             <Context.Provider value={{handleChangeResponses, handleChangeSynonyms}}>
                 <div className={classes.header}>
                     <Switch

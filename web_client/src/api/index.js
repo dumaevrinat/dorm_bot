@@ -17,5 +17,8 @@ export const api = {
     login: (username, password) => axios.post(`${baseUrl}/api/v1/auth/login`, {
         username: username,
         password: password
-    })
+    }),
+    getKeyboards: () => axios.get(`${baseUrl}/api/v1/keyboard`),
+    saveKeyboard: (keyboard) => axios.post(`${baseUrl}/api/v1/keyboard`, keyboard),
+    deleteKeyboard: (keyboardId) => axios.delete(`${baseUrl}/api/v1/keyboard/${keyboardId}`)
 }

@@ -114,4 +114,12 @@ public class Mapper {
     public User convertToEntity(UserData userData) {
         return modelMapper.map(userData, User.class);
     }
+
+    public KeyboardData convertToData(Keyboard keyboard) {
+        return modelMapper.map(keyboard, KeyboardData.class);
+    }
+
+    public Keyboard convertToEntity(KeyboardData keyboardData) {
+        return modelMapper.map(keyboardData, Keyboard.class);
+    }
 }
