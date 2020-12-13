@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {api, setAuthorizationToken} from "../api";
-import {createError} from "./errorSlice";
+import {createNotification} from "./notificationSlice";
 
 
 export const fetchLogin = createAsyncThunk('auth/login', async ({username, password}, {dispatch, rejectWithValue}) => {
@@ -12,7 +12,7 @@ export const fetchLogin = createAsyncThunk('auth/login', async ({username, passw
                 token: response.data
             }
         } catch (e) {
-            dispatch(createError('Не удалось войти'))
+            dispatch(createNotification('Не удалось войти'))
             return rejectWithValue(e)
         }
     }

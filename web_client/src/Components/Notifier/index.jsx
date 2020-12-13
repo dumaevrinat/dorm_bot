@@ -49,15 +49,15 @@ function Alert({message}) {
 export default function Notifier() {
     const classes = useStyles()
 
-    const errors = useSelector(state => state.error.errors)
+    const notifications = useSelector(state => state.notification.notifications)
 
     return (
         <div className={classes.root}>
-            {errors.map(error =>
-                <Slide direction="right" in key={error.id} mountOnEnter unmountOnExit>
+            {notifications.map(notification =>
+                <Slide direction="right" in key={notification.id} mountOnEnter unmountOnExit>
                     <div>
                         <Alert
-                            message={error.message}
+                            message={notification.message}
                         />
                     </div>
                 </Slide>

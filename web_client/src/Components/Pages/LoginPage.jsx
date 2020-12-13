@@ -7,7 +7,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchLogin} from "../../slices/authSlice";
-import {KeyboardArrowRightRounded} from "@material-ui/icons";
 import Grow from "@material-ui/core/Grow";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,8 +30,8 @@ export default function LoginPage() {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const [username, setUsername] = useState(undefined)
-    const [password, setPassword] = useState(undefined)
+    const [username, setUsername] = useState('user')
+    const [password, setPassword] = useState('user')
 
     const status = useSelector(state => state.auth.status)
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)

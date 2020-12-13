@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {api} from "../api"
-import {createError} from "./errorSlice";
+import {createNotification} from "./notificationSlice";
 
 
 export const fetchCommands = createAsyncThunk('commands/fetchCommands', async (_, {dispatch, rejectWithValue}) => {
@@ -9,7 +9,7 @@ export const fetchCommands = createAsyncThunk('commands/fetchCommands', async (_
 
         return response.data
     } catch (e) {
-        dispatch(createError('Не удалось получить команды'))
+        dispatch(createNotification('Не удалось получить команды'))
         return rejectWithValue(e)
     }
 })
@@ -18,8 +18,9 @@ export const addCommand = createAsyncThunk('commands/addCommand', async (command
     try {
         const response = await api.saveCommand(command)
         dispatch(addCommandState(response.data))
+        dispatch(createNotification('Команда добавлена'))
     } catch (e) {
-        dispatch(createError('Не удалось добавить команду'))
+        dispatch(createNotification('Не удалось добавить команду'))
     }
 })
 
@@ -36,8 +37,9 @@ export const updateCommand = createAsyncThunk('commands/saveCommand', async (com
     try {
         const response = await api.saveCommand(newCommand)
         dispatch(updateCommandState(response.data))
+        dispatch(createNotification('Команда сохранена'))
     } catch (e) {
-        dispatch(createError('Не удалось обновить команду'))
+        dispatch(createNotification('Не удалось обновить команду'))
     }
 })
 
@@ -46,8 +48,9 @@ export const deleteCommand = createAsyncThunk('commands/deleteCommand', async (c
 
     try {
         await api.deleteCommand(commandId)
+        dispatch(createNotification('Команда удалена'))
     } catch (e) {
-        dispatch(createError('Не удалось удалить команду'))
+        dispatch(createNotification('Не удалось удалить команду'))
     }
 
 })

@@ -30,6 +30,22 @@ const customTheme = createMuiTheme({
         },
         background: {
             light: '#f1f3f4'
+        },
+        vkButtonPrimary: {
+            main: '#5181B8',
+            contrastText: '#fff'
+        },
+        vkButtonSecondary: {
+            main: '#e5ebf1',
+            contrastText: 'rgb(0 0 0 / 87%)'
+        },
+        vkButtonNegative: {
+            main: '#E64646',
+            contrastText: '#fff'
+        },
+        vkButtonPositive: {
+            main: '#4BB34B',
+            contrastText: '#fff'
         }
     },
     typography: {
@@ -49,6 +65,8 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         paddingTop: theme.spacing(4),
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     }
 }))
 
